@@ -1,5 +1,5 @@
 // import { sha256 } from "js-sha256";
-import {ethers } from 'ethers'
+import { ethers } from "ethers";
 
 const transactions = [
   "Jason sent 10NGN",
@@ -20,7 +20,9 @@ const hashingUsingSha256 = (array) => {
   let container = [];
   for (let index = 0; index < array.length; index += 2) {
     if (index + 1 < array.length) {
-      container.push(ethers.sha256(ethers.toUtf8Bytes(array[index] + array[index + 1])));
+      container.push(
+        ethers.sha256(ethers.toUtf8Bytes(array[index] + array[index + 1])),
+      );
     } else {
       container.push(array[index]);
     }
@@ -29,6 +31,9 @@ const hashingUsingSha256 = (array) => {
   return hashingUsingSha256(container);
 };
 
+const mRoot1 = hashingUsingSha256(hashedTxn);
+console.log(`Meckle Root using sha256: ${mRoot1}`);
+
 const hashingUsingKec256 = (array) => {
   if (array.length === 1) {
     return array[0];
@@ -36,7 +41,9 @@ const hashingUsingKec256 = (array) => {
   let container = [];
   for (let index = 0; index < array.length; index += 2) {
     if (index + 1 < array.length) {
-      container.push(ethers.keccak256(ethers.toUtf8Bytes(array[index] + array[index + 1])));
+      container.push(
+        ethers.keccak256(ethers.toUtf8Bytes(array[index] + array[index + 1])),
+      );
     } else {
       container.push(array[index]);
     }
@@ -45,7 +52,5 @@ const hashingUsingKec256 = (array) => {
   return hashingUsingKec256(container);
 };
 
-const mRoot1 = hashingUsingSha256(hashedTxn);
 const mRoot2 = hashingUsingKec256(hashedTxn);
-console.log(`Meckle Root using sha256: ${mRoot1}`);
 console.log(`Meckle Root using kec256: ${mRoot2}`);
